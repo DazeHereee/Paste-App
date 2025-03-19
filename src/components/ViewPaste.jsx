@@ -7,48 +7,10 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useEffect } from 'react';
 
 const ViewPaste = () => {
-    const [title, setTitle] = useState('');
-    const [value, setValue] = useState("");
-    const [searchParams, setSearchParams] = useSearchParams();
-    const pasteId = searchParams.get("pasteId")
-    const dispatch = useDispatch();
-    const allPastes = useSelector((state)=> state.paste.pastes);
     const {id} = useParams();
-    const paste = allPastes.filter((p) => p._id === id[0]);
-
-    useEffect(()=>{
-        if(pasteId){
-            const paste = allPastes.find((p)=> p._id === pasteId);
-            setTitle(paste.title);
-            setValue(paste.content);
-        }
-    },[pasteId])
-
-    function createPaste(){
-        const paste = {
-            title:title,
-            content:value,
-            _id: pasteId ||
-                Date.now().toString(36),
-            createdAt:new Date().toISOString(),
-
-        }
-
-        if(pasteId){
-            //update
-            dispatch(updateToPastes(paste));
-        }
-        else{
-            //create
-            dispatch(addToPastes(paste));
-        }
-
-        //after creation or updation
-        setTitle('');
-        setValue('');
-        setSearchParams({});
-        
-    }
+    const allPastes = useSelector((state)=> state.paste.pastes);
+    const paste = allPastes.filter((p) => p._id === id);
+    console.log(paste[0].title);
 
   return (
     <div>
@@ -56,22 +18,22 @@ const ViewPaste = () => {
       <input className='p-1 rounded-2xl mt-2 w-[66%] pl-4'
        type="text"
        placeholder='enter title here'
+       value={paste[0].title}
        disabled
-       value={paste.title}
        onChange={(e)=>{setTitle(e.target.value)}} 
        />
-       <button className='p-2 rounded-2xl mt-2'
+       {/* <button className='p-2 rounded-2xl mt-2'
        onClick={createPaste}>
         {
-            pasteId ? "updated My Paste" : "Create My Paste"
+            pasteId ? "update My Paste" : "Create My Paste"
         }
-       </button>
+       </button> */}
     </div>
-    <div>
+    <div className='mt-8'>
         <textarea
         className='rounded-2xl mt-4,
         min-w-[500px] p-4'
-        value={paste.content}
+        value={paste[0].content}
         disabled
         placeholder='enter content here'
         onChange={(e)=>{setValue(e.target.value)}}

@@ -60,11 +60,11 @@ const Home = () => {
        <button className='p-2 rounded-2xl mt-2'
        onClick={createPaste}>
         {
-            pasteId ? "updated My Paste" : "Create My Paste"
+            pasteId ? "update My Paste" : "Create My Paste"
         }
        </button>
     </div>
-    <div>
+    <div className='mt-8'>
         <textarea
         className='rounded-2xl mt-4,
         min-w-[500px] p-4'
